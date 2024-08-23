@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+      /* background-image: "image4.jpg"; */
+    }
+
+    .header {
+      background-color: #007BFF;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .login-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: #0056b3;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+      background-color: #003f7f;
+    }
+
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f0f0f0;
+    }
+
+    .filter-bar input, .filter-bar select, .filter-bar button {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    .filter-bar button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .filter-bar button:hover {
+      background-color: #0056b3;
+    }
+
+    .slideshow-container {
+      position: relative;
+      max-width: 100%;
+      margin: auto;
+    }
+
+    .slides {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .slideshow-img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      margin: 5 auto;
+      transition: transform 1s;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    li {
+      margin: 10px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+      width: 200px;
+      text-align: center;
+      color: #333;
+    }
+
+    li:hover {
+      transform: translateY(-5px);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      padding: 10px;
+    }
+
+    .faculty-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+  </style>
+  <script>
+    let slideIndex = 0;
+
+    function showSlides() {
+      const slides = document.getElementsByClassName("slides");
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) { slideIndex = 1; }
+      slides[slideIndex - 1].style.display = "block";
+      setTimeout(showSlides, 3000); // Change image every 3 seconds
+    }
+
+    function filterFaculty() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const filterBy = document.getElementById('filterBy').value;
+      const ul = document.getElementById('facultyList');
+      const li = ul.getElementsByTagName('li');
+
+      for (let i = 0; i < li.length; i++) {
+        const faculty = JSON.parse(li[i].getAttribute('data-faculty'));
+        let textValue;
+
+        if (filterBy === 'name') {
+          textValue = faculty.name.toLowerCase();
+        } else if (filterBy === 'age') {
+          textValue = faculty.age.toString();
+        } else if (filterBy === 'dateOfJoining') {
+          textValue = new Date(faculty.dateOfJoining).toLocaleDateString();
+        } else if (filterBy === 'annaUniFacultyId') {
+          textValue = faculty.annaUniFacultyId.toLowerCase();
+        }
+
+        if (textValue.includes(input)) {
+          li[i].style.display = "";
+        } else {
+          li[i].style.display = "none";
+        }
+      }
+    }
+
+    window.onload = function() {
+      showSlides();
+    };
+  </script>
+</head>
+<body>
+  <div class="header">
+    <h1>SSN Faculty</h1>
+    <a href="interface" class="login-button">Login</a>
+  </div>
+
+  <div class="filter-bar">
+    <input type="text" id="searchInput" placeholder="Search for faculty...">
+    <select id="filterBy">
+      <option value="name">Name</option>
+      <option value="age">Age</option>
+      <option value="dateOfJoining">Date of Joining</option>
+      <option value="annaUniFacultyId">Anna University ID</option>
+    </select>
+    <button onclick="filterFaculty()">Filter</button>
+  </div>
+
+  <!-- <div class="slideshow-container">
+    <div class="slides active">
+      <img src="IMG1.jpeg" class="slideshow-img" alt="Slideshow Image 1">
+    </div>
+    <div class="slides">
+      <img       src="image4.jpg" class="slideshow-img" alt="Slideshow Image 2">
+    </div>
+    <div class="slides">
+      <img src="image8.jpg" class="slideshow-img" alt="Slideshow Image 3">
+    </div>
+  </div> -->
+
+  <ul id="facultyList">
+    <% faculties.forEach(faculty => { %>
+      <li data-faculty='<%= JSON.stringify(faculty) %>'>
+        <a href="/faculty/<%= faculty._id %>">
+          <% if (faculty.profileImage) { %>
+            <img src="/uploads/<%= faculty.profileImage %>" alt="<%= faculty.name %>" class="faculty-image">
+          <% } else { %>
+            <img src="/uploads/default-profile.png" alt="Default Profile" class="faculty-image">
+          <% } %>
+          <p><%= faculty.name %></p>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Signup</title>
+  <link rel="stylesheet" href="styles_signup.css" />
+</head>
+<body>
+  <div class="signup-container">
+    <div class="signup-form">
+      <h2>Faculty Signup</h2>
+      <form id="signupForm" onsubmit="return validateForm()" action="/signup" method="POST">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required placeholder="Enter your e-mail" />
+          <span id="emailError" style="color: red; display: none;">Please enter a valid email with domain example@ssn.edu.in</span>
+          <span id="emailExistError" style="color: red; display: none;">Email already exists</span>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required placeholder="Enter your Password" />
+          <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()" />
+          <label for="showPassword">Show Password</label>
+        </div>
+        <p>
+          <li class="pass__instruction">Password must contain minimum 8 Characters with at least one:</li>
+          <li class="pass__instruction">English uppercase character (A-Z)</li>
+          <li class="pass__instruction">English lowercase character (a-z)</li>
+          <li class="pass__instruction">Numeral (0-9)</li>
+          <li class="pass__instruction">Non-alphabetic character (e.g., !, $, @, #, %)</li>
+        </p>
+        <button type="submit">Sign Up</button>
+        <div class="login-link animate__animated animate__fadeIn">
+          Already have an account? <a href="/faculty_login.html">Log In</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function validateForm() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      if (!validateEmail(email)) {
+        document.getElementById("emailError").style.display = "block";
+        return false;
+      } else {
+        document.getElementById("emailError").style.display = "none";
+      }
+
+      return true;
+    }
+
+    function validateEmail(email) {
+      var pattern = /^[a-zA-Z0-9._%+-]+@ssn.edu.in$/;
+      return pattern.test(email);
+    }
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById("password");
+      const showPasswordCheckbox = document.getElementById("showPassword");
+
+      if (showPasswordCheckbox.checked) {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
+    }
+
+    // Add event listener for form submission to check email existence
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const email = document.getElementById("email").value;
+      fetch(`/check-email?email=${email}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.exists) {
+            document.getElementById("emailExistError").style.display = "block";
+          } else {
+            document.getElementById("emailExistError").style.display = "none";
+            this.submit(); // Submit the form if email does not exist
+          }
+        })
+        .catch(error => {
+          console.error("Error checking email existence:", error);
+        });
+        
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+  }
+  
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .faculty-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .faculty-table th, .faculty-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .faculty-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .inline-form {
+    display: inline;
+  }
+  
+  button {
+    padding: 10px 15px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .add-form {
+    text-align: right;
+  }
+  </style>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/path/to/your/css/styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <h1>Admin Dashboard</h1>
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="Search for faculty...">
+      <select id="filterBy">
+        <option value="name">Name</option>
+        <option value="age">Age</option>
+        <option value="dateOfJoining">Date of Joining</option>
+        <option value="annaUniFacultyId">Anna University ID</option>
+      </select>
+      <button onclick="filterFaculty()">Filter</button>
+    </div>
+    <table class="faculty-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% faculties.forEach(function(faculty) { %>
+          <tr>
+            <td><%= faculty.name %></td>
+            <td><%= faculty.role %></td>
+            <td>
+              <a href="/admin/edit/<%= faculty._id %>">Edit</a>
+              <form action="/admin/delete/<%= faculty._id %>" method="POST" class="inline-form">
+                <button type="submit">Delete</button>
+              </form>
+              <form action="/admin/generate-report/<%= faculty._id %>" method="POST" class="inline-form">
+                <button type="submit">Generate Report</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <!-- <form action="/admin/add" method="POST" class="add-form">
+      <button type="submit">Add Faculty</button>
+    </form> -->
+  </div>
+</body>
+</html>
+
+
+
+
+<script>
+  function filterFaculty() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const filterBy = document.getElementById('filterBy').value;
+    window.location.href = `/admin/filter?filterBy=${filterBy}&query=${input}`;
+  }
+</script>

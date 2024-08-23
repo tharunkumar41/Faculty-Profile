@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Faculty Profile</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Welcome to Faculty Profile</h1>
+        <div class="copyright">
+          <span>&copy; SSN 2024</span>
+          <span>All rights reserved</span>
+        </div>
+      </header>
+      <main>
+        <form id="facultyForm" action="/addData" method="POST" enctype="multipart/form-data">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="role">Role:</label>
+          <input type="text" id="Role" name="role" required />
+
+          <label for="dob">Date of Birth:</label>
+          <input type="date" id="dob" name="dob" required />
+
+          <label for="age">Age:</label>
+          <input type="number" id="age" name="age" required readonly />
+
+          <label for="dateOfJoining">Date of Joining:</label>
+          <input type="date" id="dateOfJoining" name="dateOfJoining" required />
+
+          <label for="highestQualification">Highest Qualification:</label>
+          <input type="text" id="highestQualification" name="highestQualification" required />
+
+          <label for="ssnid">SSN ID:</label>
+          <input type="text" id="ssnid" name="ssnid" required />
+
+          <label for="digitalId">Digital ID:</label>
+          <input type="text" id="digitalId" name="digitalId" required />
+
+          <label for="alternateEid">Alternate Email ID:</label>
+          <input type="email" id="alternateEid" name="alternateEid" required />
+
+          <label for="annaUniFacultyId">Anna University Faculty ID:</label>
+          <input type="text" id="annaUniFacultyId" name="annaUniFacultyId" required />
+
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="tel" id="phoneNumber" name="phoneNumber" required />
+
+          <label for="address">Address:</label>
+          <textarea id="address" name="address" required></textarea>
+
+          <label for="aicteId">AICTE ID:</label>
+          <input type="text" id="aicteId" name="aicteId" required />
+
+          <label for="researchInterest">Research Interest:</label>
+          <textarea id="researchInterest" name="researchInterest" required></textarea>
+
+          <label for="bloodGroup">Blood Group:</label>
+          <input type="text" id="bloodGroup" name="bloodGroup" required />
+
+          <div class="file-upload">
+            <label for="certificate" class="file-label">Upload Certificate</label>
+            <input type="file" id="certificate" name="certificate" />
+          </div>
+          <div class="file-upload">
+            <label for="profileImage" class="file-label">Upload Profile Image</label>
+            <input type="file" id="profileImage" name="profileImage" required />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </main>
+    </div>
+
+    <script>
+      function calculateAge(dob) {
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDifference = today.getMonth() - dob.getMonth();
+
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
+        return age;
+      }
+
+      document.getElementById('dob').addEventListener('change', function() {
+      const dob = new Date(this.value);
+      if (!isNaN(dob.getTime())) {
+        const ageInput = document.getElementById('age');
+        const age = calculateAge(dob);
+        ageInput.value = age;
+      }
+    });
+
+      document.getElementById('dateOfJoining').addEventListener('change', function() {
+        const dob = new Date(document.getElementById('dob').value);
+        const doj = new Date(this.value);
+        const joinYear = doj.getFullYear();
+
+        if (!isNaN(dob.getTime()) && !isNaN(doj.getTime())) {
+          if (doj < dob) {
+            alert('Date of Joining cannot be earlier than Date of Birth');
+            this.value = '';
+          } else if (joinYear <= 1996) {
+            alert('Date of Joining must be after 1996');
+            this.value = '';
+          }
+        }
+      });
+
+      document.getElementById('facultyForm').addEventListener('submit', function(event) {
+        const dob = new Date(document.getElementById('dob').value);
+        const doj = new Date(document.getElementById('dateOfJoining').value);
+        const joinYear = doj.getFullYear();
+
+        if (calculateAge(dob) < 21) {
+          event.preventDefault();
+          alert('Age must be greater than 21');
+        } else if (doj < dob) {
+          event.preventDefault();
+          alert('Date of Joining cannot be earlier than Date of Birth');
+        } else if (joinYear <= 1996) {
+          event.preventDefault();
+          alert('Date of Joining must be after 1996');
+        }
+      });
+
+      document.getElementById('facultyForm').addEventListener('submit', function(event) {
+      const dob = new Date(document.getElementById('dob').value);
+      const age = calculateAge(dob);
+
+      if (age < 21) {
+        event.preventDefault();
+        alert('Age must be greater than 21');
+      }
+    });
+
+    </script>
+  </body>
+</html>

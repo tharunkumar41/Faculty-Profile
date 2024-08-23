@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Profile</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #e9ecef;
+      color: #343a40;
+    }
+
+    .header {
+      background-color: #007bff;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #0056b3;
+      color: #fff;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .profile-container {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px;
+      gap: 40px;
+    }
+
+    .profile-image {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      /* border-radius: 50%; */
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      /* border: 3px solid #007bff; */
+    }
+
+    .profile-details {
+      max-width: 600px;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-details h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      color: #007bff;
+      border-bottom: 2px solid #0056b3;
+      padding-bottom: 5px;
+    }
+
+    .profile-details p {
+      margin: 10px 0;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .profile-details p strong {
+      color: #0056b3;
+    }
+
+    .profile-section {
+      margin-top: 20px;
+    }
+
+    .profile-section h3 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #343a40;
+      border-bottom: 2px solid #0056b3;
+      padding-bottom: 5px;
+    }
+
+    .profile-section p {
+      margin: 10px 0;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .view-certificate {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: #28a745;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-certificate:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Faculty Profile</h1>
+  </div>
+  <div class="profile-container">
+    <div>
+      <% if (faculty.profileImage) { %>
+        <img src="/uploads/<%= faculty.profileImage %>" alt="<%= faculty.name %>" class="profile-image">
+      <% } else { %>
+        <img src="/uploads/default-profile.png" alt="Default Image" class="profile-image">
+      <% } %>
+    </div>
+    <div class="profile-details">
+      <h2><%= faculty.name %></h2>
+      <p><strong><%= faculty.highestQualification %></strong></p>
+      <p><strong><%= faculty.role %></strong></p>
+      <p><strong>Age:</strong> <%= faculty.age %></p>
+      <p><strong>Date of Birth:</strong> <%= new Date(faculty.dob).toLocaleDateString() %></p>
+      <p><strong>Date of Joining:</strong> <%= new Date(faculty.dateOfJoining).toLocaleDateString() %></p>
+      <p><strong>SSN ID:</strong> <%= faculty.ssnid %></p>
+      <p><strong>Digital ID:</strong> <%= faculty.digitalId %></p>
+      <p><strong>Alternate Email ID:</strong> <%= faculty.alternateEid %></p>
+      <p><strong>Anna University Faculty ID:</strong> <%= faculty.annaUniFacultyId %></p>
+      <p><strong>Phone Number:</strong> <%= faculty.phoneNumber %></p>
+      <p><strong>Address:</strong> <%= faculty.address %></p>
+      <p><strong>Research Interest:</strong> <%= faculty.researchInterest %></p>
+      <p><strong>AICTE ID:</strong> <%= faculty.aicteId %></p>
+      <p><strong>Blood Group:</strong> <%= faculty.bloodGroup %></p>
+      <% if (faculty.certificate) { %>
+        <a href="/uploads/<%= faculty.certificate %>" target="_blank" class="view-certificate">View Certificate</a>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

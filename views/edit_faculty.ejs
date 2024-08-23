@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Faculty</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 50px;
+    }
+    form {
+      width: 50%;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="date"],
+    input[type="file"] {
+      width: calc(100% - 12px);
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    input[type="file"] {
+      padding: 4px;
+    }
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Edit Faculty</h1>
+  <form action="/admin/edit/<%= faculty._id %>" method="POST" enctype="multipart/form-data">
+    <label>Name: <input type="text" name="name" value="<%= faculty.name %>"></label><br>
+    <label>Role: <input type="text" name="role" value="<%= faculty.role %>"></label><br>
+    <label>Age: <input type="number" name="age" value="<%= faculty.age %>"></label><br>
+    <label>Date of Birth: <input type="date" name="dob" value="<%= faculty.dob.toISOString().split('T')[0] %>"></label><br>
+    <label>Date of Joining: <input type="date" name="dateOfJoining" value="<%= faculty.dateOfJoining.toISOString().split('T')[0] %>"></label><br>
+    <label>Highest Qualification: <input type="text" name="highestQualification" value="<%= faculty.highestQualification %>"></label><br>
+    <label>SSN ID: <input type="text" name="ssnid" value="<%= faculty.ssnid %>"></label><br>
+    <label>Digital ID: <input type="text" name="digitalId" value="<%= faculty.digitalId %>"></label><br>
+    <label>Alternate Email ID: <input type="email" name="alternateEid" value="<%= faculty.alternateEid %>"></label><br>
+    <label>Anna University Faculty ID: <input type="text" name="annaUniFacultyId" value="<%= faculty.annaUniFacultyId %>"></label><br>
+    <label>Phone Number: <input type="text" name="phoneNumber" value="<%= faculty.phoneNumber %>"></label><br>
+    <label>Address: <input type="text" name="address" value="<%= faculty.address %>"></label><br>
+    <label>AICTE ID: <input type="text" name="aicteId" value="<%= faculty.aicteId %>"></label><br>
+    <label>Research Interest: <input type="text" name="researchInterest" value="<%= faculty.researchInterest %>"></label><br>
+    <label>Blood Group: <input type="text" name="bloodGroup" value="<%= faculty.bloodGroup %>"></label><br>
+    <label>Certificate: <input type="file" name="certificate"></label><br>
+    <input type="hidden" name="existingCertificate" value="<%= faculty.certificate %>">
+    <label>Profile Image: <input type="file" name="profileImage"></label><br>
+    <input type="hidden" name="existingProfileImage" value="<%= faculty.profileImage %>">
+    <button type="submit">Save</button>
+  </form>
+</body>
+</html>

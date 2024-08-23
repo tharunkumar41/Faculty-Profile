@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/path/to/your/css/styles.css">
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Age</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% faculties.forEach(faculty => { %>
+        <tr>
+          <td><%= faculty.name %></td>
+          <td><%= faculty.role %></td>
+          <td><%= faculty.age %></td>
+          <td>
+            <a href="/admin/edit/<%= faculty._id %>">Edit</a>
+            <form action="/admin/delete/<%= faculty._id %>" method="POST" style="display:inline;">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>

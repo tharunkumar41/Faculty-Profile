@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="styles_login.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<body>
+  <div class="login-container animate__animated animate__fadeIn">
+    <div class="login-form">
+      <h2 class="animate__animated animate__bounceInDown">Admin Login</h2>
+      <form id="loginForm" action="/admin/login" method="POST">
+        <div class="form-group animate__animated animate__fadeIn">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required placeholder="Enter your e-mail" />
+          <span id="emailError" style="color: red; display: none;">Please enter a valid email with domain example@ssn.edu.in</span>
+        </div>
+        <div class="form-group animate__animated animate__fadeIn">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required placeholder="Enter your Password" />
+          <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()" />
+          <label for="showPassword">Show Password</label>
+        </div>
+        <p>
+          <li class="pass__instruction">Password must contain minimum 8 Characters with atleast one </li>
+          <li class="pass__instruction">English uppercase characters (A through Z)</li>
+          <li class="pass__instruction">English lowercase characters (a through z)</li>
+          <li class="pass__instruction">Numerals (0 through 9)</li>
+          <li class="pass__instruction">Non-alphabetic characters (such as !, $, @, #, %)</li></p>
+        <button type="submit" class="animate__animated animate__fadeIn" id="submitButton" disabled>Login</button>
+        <!-- <div class="signup-link animate__animated animate__fadeIn">
+          Don't have an account? <a href="faculty_profile.html">Sign up</a>
+        </div> -->
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for handling form submission
+    function validateForm() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      // Basic conditions to validate email
+      if (!validateEmail(email)) {
+        document.getElementById("emailError").style.display = "block";
+        return false;
+      } else {
+        document.getElementById("emailError").style.display = "none";
+      }
+
+      // Basic conditions to validate password
+      if (password.length < 8) {
+        alert("Password must be at least 8 characters long");
+        return false;
+      }
+      if (!/[a-z]/.test(password)) {
+        alert("Password must contain at least one lowercase letter (a-z)");
+        return false;
+      }
+      if (!/[A-Z]/.test(password)) {
+        alert("Password must contain at least one uppercase letter (A-Z)");
+        return false;
+      }
+      if (!/\d/.test(password)) {
+        alert("Password must contain at least one number (0-9)");
+        return false;
+      }
+      if (!/[^a-zA-Z0-9]/.test(password)) {
+        alert("Password must contain at least one non-alphabetic character (such as !, $, @, #, %)");
+        return false;
+      }
+      // If all conditions pass, return true to submit the form
+      return true;
+    }
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById("password");
+      const showPasswordCheckbox = document.getElementById("showPassword");
+
+      if (showPasswordCheckbox.checked) {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
+    }
+
+    // Function to validate email with specific domain
+    function validateEmail(email) {
+      var pattern = /^[a-zA-Z0-9._%+-]+@ssn.edu.in$/;
+      return pattern.test(email);
+    }
+
+    // Add event listener to email input for real-time validation
+    document.getElementById("email").addEventListener("input", function() {
+      var email = this.value;
+      var submitButton = document.getElementById("submitButton");
+      var emailError = document.getElementById("emailError");
+
+      // Validate email format
+      if (!validateEmail(email)) {
+        emailError.style.display = "block";
+        submitButton.disabled = true;
+      } else {
+        emailError.style.display = "none";
+        submitButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
